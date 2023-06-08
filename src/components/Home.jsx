@@ -1,6 +1,8 @@
 import React, { useContext, useEffect } from "react";
 import { Context } from "../App";
 import { useNavigate } from "react-router-dom";
+import { auth } from "./firebase";
+import { signOut } from "firebase/auth";
 
 export default function Home() {
   const nav = useNavigate();
@@ -16,7 +18,13 @@ export default function Home() {
       <h1>Home</h1>
       <button
         onClick={() => {
-          setCurrentUser(null);
+          signOut(auth)
+            .then(() => {
+              setCurrentUser(null);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
         }}
       >
         Log Out
